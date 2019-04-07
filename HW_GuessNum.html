@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <title>終極密碼</title>
+</head>
+
+<body id="body">
+    <div class="container p-0">
+
+        <div class="d-flex flex-column justify-content-around flex-lg-row">
+            <div class="mx-auto my-3 m-lg-5">
+                <div class="d-flex bg-success rounded-circle circle mx-auto mb-4">
+                    <div class="m-auto text-light Qtext fontsty" id="Show">
+                        終極密碼
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="fontsty">
+                        <div>
+                            設定最大範圍：(預設100)</div>
+                        <input type="number" class="mb-2" id="setmaxnum" value="100" min="10" max="5000">
+                        <br>
+                        <div>
+                            設定猜題次數：(預設10)
+                        </div>
+                        <input type="number" class="mb-2" id="settimes" value="10" min="6" max="15">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-fill mb-5 mt-lg-5">
+                <div id="inputval">
+                    <input id="inputtag" class="text-center intext mx-3 bg-light text-dark ert" type="text" value=""
+                        readonly>
+                    <h2 id="guesstimes" class="text-center mb-2 fontsty">剩餘猜題次數：10</h2>
+                </div>
+
+
+
+                <div class="d-flex flex-row justify-content-between">
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta textsize fontsty" id="dark-light">Dark</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta textsize fontsty" id="start">開始</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta textsize fontsty disabled" id="newstart">放棄</a>
+                </div>
+
+                <div class="d-flex flex-row justify-content-between">
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">7</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">8</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">9</a>
+                </div>
+
+                <div class="d-flex flex-row justify-content-between">
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">4</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">5</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">6</a>
+                </div>
+
+                <div class="d-flex flex-row justify-content-between">
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">1</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">2</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">3</a>
+                </div>
+
+                <div class="d-flex flex-row justify-content-between">
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta textsize fontsty disabled" id="clearInput">清除</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta btext textsize fontsty disabled">0</a>
+                    <a class="flex-fill my-2 mx-3 btn btn-light bta textsize fontsty disabled" id="enterInput">確定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        var answer = "";
+        var number;
+        var maxnum;
+        var minnum;
+        var input = document.getElementById("guesstimes");
+        var inputext = document.getElementById("inputtag");
+        var show = document.getElementById("Show");
+        var guesstimes;
+        var setmaxnum = document.getElementById("setmaxnum");
+        var settimes = document.getElementById("settimes");
+
+        document.getElementById("dark-light").onclick =
+            function () {
+                var DN = document.getElementById("dark-light").innerHTML;
+                var bta = document.getElementsByClassName("bta");
+                //console.log(DN);
+                if (DN == "Dark") {
+                    //console.log("A");
+                    document.getElementById("body").classList.add("text-white", "bg-dark");
+                    for (var i = 0; i < bta.length; i++) {
+                        bta[i].classList.remove("btn-light");
+                        bta[i].classList.add("btn-secondary");
+                    }
+                    document.getElementById("inputtag").classList.remove("text-dark", "bg-light");
+                    document.getElementById("inputtag").classList.add("text-light", "bg-secondary");
+                    document.getElementById("dark-light").innerHTML = "light";
+                }
+                else {
+                    //console.log("B");
+                    document.getElementById("body").classList.remove("text-white", "bg-dark");
+                    for (var i = 0; i < bta.length; i++) {
+                        bta[i].classList.remove("btn-secondary");
+                        bta[i].classList.add("btn-light");
+                    }
+                    document.getElementById("inputtag").classList.remove("text-light", "bg-secondary");
+                    document.getElementById("inputtag").classList.add("text-dark", "bg-light");
+                    document.getElementById("dark-light").innerHTML = "Dark";
+                }
+            }
+
+        var inputButtons = document.getElementsByClassName("btext");
+        //console.log(inputButtons);
+
+        for (var i = 0; i < inputButtons.length; i++) {
+            //console.log($(inputButtons[i]).text());
+            inputButtons[i].onclick =
+                function () {
+                    var inputnum;
+                    inputnum = this.innerHTML;
+                    inputext.value += inputnum;
+                }
+        }
+
+        document.getElementById("clearInput").onclick =
+            function () {
+                inputext.value = "";
+            }
+
+        document.getElementById("enterInput").onclick = doGuess;
+
+        function doGuess() {
+            if (inputext.value == "") {
+                alert("請輸入數字。"); return;
+            }
+            number = parseInt(inputext.value);
+            inputext.value = "";
+            //console.log(number);
+            if (number == answer) {
+                show.innerHTML = "猜對了！";
+                guesstimes--;
+                setTimeout(
+                    function () {
+                        alert("恭喜你猜對囉！");
+                        if (confirm("是否開始新的一局？")) {
+                            startGame();
+                        }
+                        else {
+                            Ori();
+                        }
+                    }, 1500);
+            }
+            else if (number < answer) {
+                if (minnum < number) {
+                    minnum = number;
+                    guesstimes--;
+                }
+                else {
+                    alert("請猜大於" + minnum + "的數字");
+                }
+                show.innerHTML = minnum + "到" + maxnum;
+            }
+            else if (number > answer) {
+                if (maxnum > number) {
+                    maxnum = number;
+                    guesstimes--;
+                }
+                else {
+                    alert("請猜小於" + maxnum + "的數字");
+                }
+                show.innerHTML = minnum + "到" + maxnum;
+            }
+            input.innerHTML = "剩餘猜題次數：" + guesstimes;
+            if ((number != answer) && (guesstimes == 0)) {
+                setTimeout(
+                    function () {
+                        alert("你輸了，答案是" + answer);
+                        if (confirm("是否開始新的一局？")) {
+                            startGame();
+                        }
+                        else {
+                            Ori();
+                        }
+                    }, 1500);
+            }
+        }
+
+        document.getElementById("start").onclick = startGame;
+
+        function startGame() {
+            if (setmaxnum.value < 10 || setmaxnum.value > 5000) {
+                alert("請輸入10~5000的數"); return;
+            }
+            if (settimes.value < 6 || settimes.value > 15) {
+                alert("請輸入6~15的數"); return;
+            }
+            Orival();
+            answer = Math.floor(Math.random() * (maxnum + 1));
+            //console.log(answer);
+            document.getElementById("start").classList.add("disabled");
+            document.getElementById("newstart").classList.remove("disabled");
+            var btext = document.getElementsByClassName("btext")
+            for (var i = 0; i < btext.length; i++) {
+                btext[i].classList.remove("disabled");
+            }
+            document.getElementById("clearInput").classList.remove("disabled");
+            document.getElementById("enterInput").classList.remove("disabled");
+            document.getElementById("setmaxnum").disabled = true;
+            document.getElementById("settimes").disabled = true;
+            alert("開始猜！");
+        }
+
+        document.getElementById("newstart").onclick = abortGame;
+
+        function abortGame() {
+            if (confirm("放棄這局？")) {
+                alert("答案是" + answer);
+                Ori();
+                if (confirm("是否開始新的一局？")) {
+                    startGame();
+                }
+            }
+        }
+
+        function Orival() {
+            maxnum = +document.getElementById("setmaxnum").value;
+            //console.log(maxnum);
+            minnum = 0;
+            number = "";
+            show.innerHTML = minnum + "到" + maxnum;
+            guesstimes = document.getElementById("settimes").value;
+            input.innerHTML = "剩餘猜題次數：" + guesstimes;
+        }
+
+        function Ori() {
+            document.getElementById("start").classList.remove("disabled");
+            document.getElementById("newstart").classList.add("disabled");
+            var btext = document.getElementsByClassName("btext")
+            for (var i = 0; i < btext.length; i++) {
+                btext[i].classList.add("disabled");
+            }
+            document.getElementById("clearInput").classList.add("disabled");
+            document.getElementById("enterInput").classList.add("disabled");
+            document.getElementById("setmaxnum").disabled = false;
+            document.getElementById("settimes").disabled = false;
+            Orival();
+            show.innerHTML = "終極密碼";
+        }
+
+        //console.log();
+
+    </script>
+</body>
+
+</html>

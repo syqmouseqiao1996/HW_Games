@@ -1,0 +1,14 @@
+.hide-TB input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* .sel-TG input[type="date"]::-webkit-calendar-picker-indicator {
+  -webkit-appearance: none;
+    display: none;
+}
+ */
+.spantexti {
+  margin: 0px 3px;
+  font-style: italic;
+}
